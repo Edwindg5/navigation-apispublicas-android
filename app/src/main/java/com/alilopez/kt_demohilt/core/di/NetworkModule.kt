@@ -11,12 +11,23 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
     @Provides
     @Singleton
     @JsonPlaceHolderRetrofit
-    fun provideRetrofit(): Retrofit {
+    fun provideJsonPlaceHolderRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @RickAndMortyRetrofit
+    fun provideRickAndMortyRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://rickandmortyapi.com/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

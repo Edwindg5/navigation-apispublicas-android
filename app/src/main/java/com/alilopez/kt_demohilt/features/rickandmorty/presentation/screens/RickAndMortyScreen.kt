@@ -1,4 +1,4 @@
-package com.alilopez.demo.features.jsonplaceholder.presentation.screens
+package com.alilopez.kt_demohilt.features.rickandmorty.presentation.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,9 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,26 +17,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.alilopez.demo.features.jsonplaceholder.presentation.components.PostsCard
-import com.alilopez.demo.features.jsonplaceholder.presentation.viewmodels.PostsViewModel
+import com.alilopez.kt_demohilt.features.rickandmorty.presentation.components.CharacterCard
+import com.alilopez.kt_demohilt.features.rickandmorty.presentation.viewmodels.RickAndMortyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostsScreen(
-    onNavigateToRick: () -> Unit,
-    viewModel: PostsViewModel = hiltViewModel()
+fun RickAndMortyScreen(
+    onBack: () -> Unit,
+    viewModel: RickAndMortyViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("JSON Place Holder") },
-                actions = {
-                    IconButton(onClick = onNavigateToRick) {
+                title = { Text("Rick and Morty Characters") },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.Default.Face,
-                            contentDescription = "Rick and Morty"
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Atras"
                         )
                     }
                 }
@@ -67,11 +64,12 @@ fun PostsScreen(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(8.dp)
                     ) {
-                        items(uiState.posts) { post ->
-                            PostsCard(
-                                id = post.id,
-                                title = post.title,
-                                body = post.body
+                        items(uiState.characters) { character ->
+                            CharacterCard(
+                                name = character.name,
+                                status = character.status,
+                                species = character.species,
+                                image = character.image
                             )
                         }
                     }
